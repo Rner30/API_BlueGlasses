@@ -1,5 +1,14 @@
 import {Schema,model} from 'mongoose'
 
+export interface IProduct extends Document{
+    name: String;
+    description: String;
+    price: Number;
+    Stock: Number;
+    category: String;
+    image: String;
+}
+
 
 const ProductShema = new Schema({
     name:{
@@ -26,6 +35,6 @@ const ProductShema = new Schema({
     }
 })
 
-const Product = model('Product',ProductShema)
+const Product = model<IProduct>('Product',ProductShema)
 
 export default Product

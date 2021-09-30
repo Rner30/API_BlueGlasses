@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProduct, getAllItemsOfOneCategory, getAllProducts, getOneProduct } from "../controllers/productsController";
+import { createProduct, getAllItemsOfOneCategory, getAllProducts, getOneProduct, UpdateProduct } from "../controllers/productsController";
 import { check } from "express-validator";
 import { validateFields } from "../middleware/validateFields";
 
@@ -16,7 +16,6 @@ router.get('/category/:name',[
     check('name','Se necesita un nombre para realizar la busqueda').not().isEmpty()
 ],getAllItemsOfOneCategory)
 
-
 router.post('/',[
     check('name',"El nombre es requerido").not().isEmpty(),
     check('price',"El precio es requerido").not().isEmpty(),
@@ -26,6 +25,10 @@ router.post('/',[
     check('category',"La categoria es necesaria").not().isEmpty(),
     validateFields
 ],createProduct)
+
+router.put('/:id',[
+    check('id','No es un id de mongo valiod').isMongoId()
+],UpdateProduct)
 
 
 export default router
