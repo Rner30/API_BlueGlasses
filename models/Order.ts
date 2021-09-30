@@ -34,7 +34,10 @@ const OrderSchema = new Schema({
                 type: String,
                 required: true
             }
-        }
+        }  
+    },
+    total:{
+        type:Number
     }
 })
 const Order = model('Order',OrderSchema)

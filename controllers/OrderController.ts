@@ -7,13 +7,12 @@ export const getAllOrders = async (req:Request ,res:Response) => {
 }
 
 export const createNewOrder = async (req:Request,res:Response) => {
-    const {comprador,items} = req.body
-
+    const { comprador , items , total } = req.body
     const data = {
         comprador,
-        items
+        items,
+        total
     }
-
     const newOrder = new Order(data)
     await newOrder.save()
     res.json(newOrder)
@@ -21,6 +20,7 @@ export const createNewOrder = async (req:Request,res:Response) => {
 
 export const deleteOrder = async (req:Request,res:Response) => {
     const {id} = req.params
+
     const findOrder = await Order.findByIdAndDelete(id)
 
     if (!findOrder) {
@@ -32,5 +32,4 @@ export const deleteOrder = async (req:Request,res:Response) => {
     res.status(400).json({
         msg: "Orden eliminada"
     })
-
 }
