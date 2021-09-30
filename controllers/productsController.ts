@@ -28,7 +28,7 @@ export const getAllItemsOfOneCategory = async (req:Request ,res:Response) => {
 
 
 export const createProduct = async (req:Request,res:Response) => {
-    const {name,price,description,stock,category} = req.body
+    const {name,price,description,stock,category,image} = req.body
     const productExists = await Product.findOne({name:name})
 
     if (productExists) {
@@ -41,7 +41,8 @@ export const createProduct = async (req:Request,res:Response) => {
         description,
         price,
         stock,
-        category
+        category,
+        image
     }
     const newProduct = new Product(data)
     await newProduct.save()
