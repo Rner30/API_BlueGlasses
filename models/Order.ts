@@ -1,5 +1,25 @@
 import {Schema,model} from 'mongoose'
 
+interface IComprador{
+    email: String;
+    name: String;
+    phone: String;
+}
+
+interface Iitem{
+    cantidad: Number;
+    nombre: String;
+}
+
+interface IItems{
+    cantidad: Number;
+    item: Array<Iitem>
+}
+export interface IOrder extends Document{
+    comprador:Array<IComprador>;
+    items: Array<IItems>
+    total : Number
+}
 
 const OrderSchema = new Schema({
     comprador:{
@@ -40,7 +60,7 @@ const OrderSchema = new Schema({
         type:Number
     }
 })
-const Order = model('Order',OrderSchema)
+const Order = model<IOrder>('Order',OrderSchema)
 
 export default Order
 

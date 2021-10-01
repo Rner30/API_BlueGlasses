@@ -1,35 +1,49 @@
 import { Request, Response } from "express";
 import Order from "../models/Order";
 
-export const getAllOrders = async (req:Request ,res:Response) => {
-    const orders = await Order.find()
-    res.json(orders)
-}
+export const getAllOrders = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
 
-export const createNewOrder = async (req:Request,res:Response) => {
-    const { comprador , items , total } = req.body
-    const data = {
-        comprador,
-        items,
-        total
-    }
-    const newOrder = new Order(data)
-    await newOrder.save()
-    res.json(newOrder)
-}
+	const orders = await Order.find();
+	return res.json(orders);
 
-export const deleteOrder = async (req:Request,res:Response) => {
-    const {id} = req.params
+};
 
-    const findOrder = await Order.findByIdAndDelete(id)
+export const createNewOrder = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
 
-    if (!findOrder) {
-        return res.json({
-            msg: "No existe un producto con ese ID"
-        })
-    }
+	const { comprador, items, total } = req.body;
+	const data = {
+		comprador,
+		items,
+		total,
+	};
+	const newOrder = new Order(data);
+	await newOrder.save();
+	return res.json(newOrder);
 
-    res.status(400).json({
-        msg: "Orden eliminada"
-    })
-}
+};
+
+export const deleteOrder = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
+
+	const { id } = req.params;
+	const findOrder = await Order.findByIdAndDelete(id);
+
+	if (!findOrder) {
+		return res.json({
+			msg: "No existe un producto con ese ID",
+		});
+	}
+
+	return res.status(400).json({
+		msg: "Orden eliminada",
+	});
+
+};

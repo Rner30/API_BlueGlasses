@@ -1,77 +1,95 @@
-import { Request,Response } from "express"
-import Product from "../models/Product"
+import { Request, Response } from "express";
+import Product from "../models/Product";
 
-export const getAllProducts = async (req:Request , res:Response):Promise<Response> => {
-    const products = await Product.find()
-    return res.json(products)
-}
+export const getAllProducts = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
+	const products = await Product.find();
+	return res.json(products);
+};
 
-export const getOneProduct = async (req:Request,res:Response):Promise<Response> => {
-    const {id} = req.params
+export const getOneProduct = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
+	const { id } = req.params;
 
-    const product = await Product.findById(id)
-    return res.json(product)
-}
+	const product = await Product.findById(id);
+	return res.json(product);
+};
 
-export const getAllItemsOfOneCategory = async (req:Request ,res:Response):Promise<Response> => {
-    const {name} = req.params
-    const nameExists = await Product.find({category: name})
+export const getAllItemsOfOneCategory = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
 
-    if (!nameExists) {
-        return res.status(404).json({
-            msg: "No hay una categoria existente con ese nombre"
-        })
-    }
-    return res.json(nameExists)
-}
+	const { name } = req.params;
+	const nameExists = await Product.find({ category: name });
 
+	if (!nameExists) {
+		return res.status(404).json({
+			msg: "No hay una categoria existente con ese nombre",
+		});
+	}
+	return res.json(nameExists);
 
-export const createProduct = async (req:Request,res:Response):Promise<Response> => {
-    const {name,price,description,stock,category,image} = req.body
-    const productExists = await Product.findOne({name:name})
+};
 
-    if (productExists) {
-        return res.json({
-            msg: "El producto ya existe"
-        })
-    }
-    const data = {
-        name,
-        description,
-        price,
-        stock,
-        category,
-        image
-    }
-    const newProduct = new Product(data)
-    await newProduct.save()
-    return res.status(201).json(newProduct)
-}
+export const createProduct = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
 
-export const UpdateProduct = async (req:Request,res:Response):Promise<Response> => {
-    const {id} = req.params
+	const { name, price, description, stock, category, image } = req.body;
+	const productExists = await Product.findOne({ name: name });
 
-    const {name,description,price,stock,category,image} = req.body
+	if (productExists) {
+		return res.json({
+			msg: "El producto ya existe",
+		});
+	}
+	const data = {
+		name,
+		description,
+		price,
+		stock,
+		category,
+		image,
+	};
+	const newProduct = new Product(data);
+	await newProduct.save();
+	return res.status(201).json(newProduct);
 
-    const productExists = await Product.findById(id)
+};
 
-    if (!productExists) {
-        return res.status(404).json({
-            msg:"El producto no existe"
-        })
-    }
+export const UpdateProduct = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
 
-    const data = {
-        name,
-        description,
-        price,
-        stock,
-        category,
-        image
-    }
-    const updatedProduct = await Product.findByIdAndUpdate(id,data)
+	const { id } = req.params;
 
-    return res.status(201).json(updatedProduct)
-}
+	const { name, description, price, stock, category, image } = req.body;
 
+	const productExists = await Product.findById(id);
 
+	if (!productExists) {
+		return res.status(404).json({
+			msg: "El producto no existe",
+		});
+	}
+
+	const data = {
+		name,
+		description,
+		price,
+		stock,
+		category,
+		image,
+	};
+	const updatedProduct = await Product.findByIdAndUpdate(id, data);
+
+	return res.status(201).json(updatedProduct);
+    
+};
