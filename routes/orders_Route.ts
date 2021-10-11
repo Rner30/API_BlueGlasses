@@ -2,6 +2,7 @@ import { Router } from "express";
 import { check } from "express-validator";
 import {
 	createNewOrder,
+	deleteAllOrders,
 	deleteOrder,
 	getAllOrders,
 } from "../controllers/OrderController";
@@ -21,10 +22,14 @@ router.post(
 	createNewOrder
 );
 
+router.delete('/delete-orders',deleteAllOrders)
+
 router.delete(
 	"/:id",
 	[check("id", "No es un id de mongo valido").isMongoId()],
 	deleteOrder
 );
+
+
 
 export default router;

@@ -5,6 +5,7 @@ import { dbConnection } from "./db/db";
 
 import ProductsRoute from "./routes/products_Route";
 import OrdersRoute from "./routes/orders_Route";
+import PaymentRoute from "./routes/payment_Route";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ dbConnection();
 
 app.use("/api/products", ProductsRoute);
 app.use("/api/orders", OrdersRoute);
+app.use("/api/payment", PaymentRoute);
 
 app.listen(process.env.PORT, () => {
 	console.log("SERVER UP");

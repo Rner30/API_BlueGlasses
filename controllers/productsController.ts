@@ -5,7 +5,13 @@ export const getAllProducts = async (
 	req: Request,
 	res: Response
 ): Promise<Response> => {
-	const products = await Product.find();
+
+	const {limit = 10} = req.query
+
+	const products = await Product
+		.find()
+		.limit(Number(limit))
+		
 	return res.json(products);
 };
 
@@ -13,10 +19,12 @@ export const getOneProduct = async (
 	req: Request,
 	res: Response
 ): Promise<Response> => {
+
 	const { id } = req.params;
 
 	const product = await Product.findById(id);
 	return res.json(product);
+
 };
 
 export const getAllItemsOfOneCategory = async (
@@ -25,6 +33,7 @@ export const getAllItemsOfOneCategory = async (
 ): Promise<Response> => {
 
 	const { name } = req.params;
+	
 	const nameExists = await Product.find({ category: name });
 
 	if (!nameExists) {
@@ -42,6 +51,7 @@ export const createProduct = async (
 ): Promise<Response> => {
 
 	const { name, price, description, stock, category, image } = req.body;
+	
 	const productExists = await Product.findOne({ name: name });
 
 	if (productExists) {
